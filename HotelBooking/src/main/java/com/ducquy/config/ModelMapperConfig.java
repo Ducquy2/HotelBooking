@@ -29,7 +29,7 @@ public class ModelMapperConfig {
                 // Cho phép truy cập vào cả các field private
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
                 // Sử dụng chiến lược STANDARD:
-                // - Độ chính xác trung bình 
+                // - Độ chính xác trung bình
                 // - Map các field có tên giống nhau
                 // - Phù hợp cho hầu hết trường hợp
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
