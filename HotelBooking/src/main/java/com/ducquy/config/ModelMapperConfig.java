@@ -25,15 +25,9 @@ public class ModelMapperConfig {
         
         // Cấu hình ModelMapper
         modelMapper.getConfiguration()
-                .setFieldMatchingEnabled(true) // Cho phép map các trường có cùng tên với nhau
-                // Cho phép truy cập vào cả các field private
+                .setFieldMatchingEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
-                // Sử dụng chiến lược STANDARD:
-                // - Độ chính xác trung bình
-                // - Map các field có tên giống nhau
-                // - Phù hợp cho hầu hết trường hợp
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
-                
         return modelMapper;
     }
 }

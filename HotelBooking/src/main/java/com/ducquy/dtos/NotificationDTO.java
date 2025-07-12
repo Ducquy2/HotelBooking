@@ -1,7 +1,10 @@
-package com.ducquy.entitys;
+package com.ducquy.dtos;
 
 import com.ducquy.enums.NotificationType;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,27 +13,27 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "notifications")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Notification {
+@JsonIgnoreProperties(ignoreUnknown = true) // Bỏ qua các thuộc tính không được định nghĩa trong DTO khi nhận dữ liệu JSON
+@JsonInclude(JsonInclude.Include.NON_NULL) // Chỉ bao gồm các thuộc tính không null trong JSON
+public class NotificationDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID thông báo
 
+    @NotBlank(message = "Subject is required")
     private String subject; // Tiêu đề thông báo
+
     @NotBlank(message = "Recipient is required")
     private String recipient; // Người nhận thông báo, có thể là email hoặc số điện thoại
     private String body; // Nội dung thông báo
 
-    @Enumerated(EnumType.STRING) // Lưu trữ giá trị enum dưới dạng chuỗi
     private NotificationType type; // Loại thông báo (EMAIL, SMS, PUSH)
 
     private String bookingReference; // Mã tham chiếu đặt phòng liên kết với thông báo, duy nhất để theo dõi đặt phòng
-    private final LocalDateTime createdAt = LocalDateTime.now(); // Ngày tạo thông báo, mặc định là ngày hiện tại
+    private LocalDateTime createdAt; // Ngày tạo thông báo, mặc định là ngày hiện tại
+
 
 }

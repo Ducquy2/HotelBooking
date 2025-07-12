@@ -13,16 +13,16 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments") // Tên bảng trong cơ sở dữ liệu
-@Data // Sinh tự động các phương thức getter, setter, toString, equals, hashCode
-@AllArgsConstructor // Sinh constructor với tất cả các trường
-@NoArgsConstructor // Sinh constructor không tham số
-@Builder // Hỗ trợ pattern Builder để tạo đối tượng một cách linh hoạt
+@Table(name = "payments")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // ID thanh toán, tự động tăng
+    private Long id;  // ID thanh toán
 
     private String transactionId; // Mã giao dịch thanh toán, duy nhất để theo dõi giao dịch
     private BigDecimal amount; // Số tiền thanh toán

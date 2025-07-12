@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RoomRepository extends JpaRepository<Room, Long> {// Repository cho thực thể Room
+public interface RoomRepository extends JpaRepository<Room, Long> { // Repository cho thực thể Room
 
     /**
      * Tìm các phòng còn trống trong khoảng thời gian đặt phòng.
@@ -19,7 +19,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {// Repository
      * @param roomType Loại phòng (nếu có, nếu không thì tìm tất cả các loại phòng)
      * @return Danh sách các phòng còn trống
      */
-
     @Query("""
         SELECT r FROM Room r
         WHERE
@@ -36,7 +35,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {// Repository
     List<Room> findAvailableRooms( // Tìm các phòng còn trống trong khoảng thời gian đặt phòng
             @Param("checkInDate") LocalDate checkInDate, // Ngày nhận phòng
             @Param("checkOutDate") LocalDate checkOutDate, // Ngày trả phòng
-            @Param("roomType") RoomType roomType // Loại phòng (nếu có, nếu không thì tìm tất cả các loại phòng)
+            @Param("roomType") RoomType roomType // Loại phòng (nếu có, nếu không thì tìm tất cả các loại phòng)w
     );
 
     /**
@@ -45,13 +44,12 @@ public interface RoomRepository extends JpaRepository<Room, Long> {// Repository
      * @param searchParam Tham số tìm kiếm (có thể là số phòng, loại phòng, giá mỗi đêm, sức chứa hoặc mô tả)
      * @return Danh sách các phòng phù hợp với tham số tìm kiếm
      */
-
     @Query ("""
         SELECT r FROM Room r
         WHERE CAST (r.roomNumber AS string) LIKE %:searchParam%
-        OR LOWER (r.type) LIKE LOWER(:searchParam) 
-        OR CAST (r.pricePerNight AS string) LIKE %:searchParam% 
-        OR CAST (r.capacity AS string) LIKE %:searchParam% 
+        OR LOWER (r.type) LIKE LOWER(:searchParam)
+        OR CAST (r.pricePerNight AS string) LIKE %:searchParam%
+        OR CAST (r.capacity AS string) LIKE %:searchParam%
         OR LOWER (r.description) LIKE LOWER(CONCAT('%', :searchParam, '%'))
         """)
     // Truy vấn để tìm các phòng theo tham số tìm kiếm

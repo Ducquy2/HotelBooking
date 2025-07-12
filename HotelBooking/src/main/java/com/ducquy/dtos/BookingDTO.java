@@ -1,7 +1,11 @@
-package com.ducquy.entitys;
+package com.ducquy.dtos;
 
+import com.ducquy.entitys.Room;
+import com.ducquy.entitys.User;
 import com.ducquy.enums.BookingStatus;
 import com.ducquy.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,27 +16,20 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "bookings")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Booking {
+@JsonIgnoreProperties(ignoreUnknown = true) // Bỏ qua các thuộc tính không được định nghĩa trong DTO khi nhận dữ liệu JSON
+@JsonInclude(JsonInclude.Include.NON_NULL) // Chỉ bao gồm các thuộc tính không null trong JSON
+public class BookingDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID đặt phòng
 
-    @ManyToOne(cascade =  CascadeType.REMOVE) // Nhiều đặt phòng có thể liên kết với một phòng
-    @JoinColumn(name = "user_id") // Liên kết với bảng users thông qua user_id
-    private User user; // Người dùng đã đặt phòng, liên kết với bảng users
+    private UserDTO user; // Người dùng đã đặt phòng, liên kết với bảng users
 
-    @ManyToOne(cascade = CascadeType.REMOVE) // Nhiều đặt phòng có thể liên kết với một phòng
-    @JoinColumn(name = "room_id") // Liên kết với bảng rooms thông qua room_id
-    private Room room; // Phòng đã được đặt, liên kết với bảng rooms
+    private RoomDTO room; // Phòng đã được đặt, liên kết với bảng rooms
 
-    @Enumerated(EnumType.STRING) // Lưu trữ giá trị enum dưới dạng chuỗi
     private PaymentStatus paymentStatus; // Trạng thái thanh toán (PENDING, COMPLETED, FAILED)
 
     private LocalDate checkInDate; // Ngày nhận phòng
@@ -42,8 +39,5 @@ public class Booking {
     private String bookingReference; // Mã tham chiếu đặt phòng, duy nhất để theo dõi đặt phòng
     private LocalDateTime createdAt; // Ngày tạo đặt phòng, mặc định là ngày hiện tại
 
-    @Enumerated(EnumType.STRING) // Lưu trữ giá trị enum dưới dạng chuỗi
     private BookingStatus bookingStatus; // Trạng thái đặt phòng (PENDING, CONFIRMED, CANCELED)
-
-
 }

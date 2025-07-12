@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "booking_references") // Tên bảng trong cơ sở dữ liệu
+@Table(name = "booking_references")
 @Data // Sinh tự động các phương thức getter, setter, toString, equals, hashCode
 @AllArgsConstructor // Sinh constructor với tất cả các trường
 @NoArgsConstructor // Sinh constructor không tham số
@@ -19,5 +19,5 @@ public class BookingReference {
     private Long id; // ID booking reference
 
     @Column(unique = true, nullable = false) // Đảm bảo booking reference là duy nhất và không được để trống
-    private String reference; // Mã tham chiếu đặt phòng, duy nhất để theo dõi đặt phòng
+    private String referenceNo; // Mã tham chiếu đặt phòng, duy nhất để theo dõi đặt phòng
 }

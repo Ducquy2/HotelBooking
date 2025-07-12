@@ -1,7 +1,11 @@
-package com.ducquy.entitys;
+package com.ducquy.dtos;
 
 import com.ducquy.enums.RoomType;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -11,29 +15,22 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "rooms")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Room {
+@JsonIgnoreProperties(ignoreUnknown = true) // Bỏ qua các thuộc tính không được định nghĩa trong DTO khi nhận dữ liệu JSON
+@JsonInclude(JsonInclude.Include.NON_NULL) // Chỉ bao gồm các thuộc tính không null trong JSON
+public class RoomDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID phòng
 
-    @Min(value = 1, message = "Room number must be greater than 0") // Kiểm tra số phòng phải lớn hơn 0
-    @Column(unique = true) // Đảm bảo số phòng là duy nhất trong bảng
     private Integer roomNumber; // Số phòng, duy nhất
 
-    @Enumerated(EnumType.STRING) // Lưu trữ giá trị enum dưới dạng chuỗi
     private RoomType type; // Loại phòng (SINGLE, DOUBLE, SUITE)
 
-    @DecimalMin(value = "0.1", message = "Price per night must be greater than 0") // Kiểm tra giá mỗi đêm phải lớn hơn 0
     private BigDecimal pricePerNight; // Giá mỗi đêm của phòng
 
-    @Min(value = 1, message = "Capacity must be greater than 0") // Kiểm tra sức chứa phải lớn hơn 0
     private Integer capacity; // Sức chứa của phòng (số người tối đa có thể ở)
 
     private String description; // Mô tả về phòng
